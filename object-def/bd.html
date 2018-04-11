@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>双向绑定</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    input: <input id="testValue" type="text" name="" value="">
+    <br/>
+    <p>obj.testValue:<span id="obj"></span></p>
+    <script>
+        var obj = {};
+        var _testValue = '';
+        Object.defineProperty(obj, "testValue", {
+            get: function () {
+                return _testValue;
+            },
+            set: function (value) {
+                _testValue = value;
+                document.querySelector("#testValue").value = _testValue;
+                document.querySelector("#obj").innerHTML = _testValue;
+            }
+        })
+        var input = document.querySelector("#testValue");
+        input.onkeyup = function () {
+            _testValue = this.value;
+            document.querySelector("#obj").innerHTML = obj.testValue;
+        }
+    </script>
+</body>
+</html>

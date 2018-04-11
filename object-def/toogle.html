@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+</head>
+<style>
+    /* .toggle {
+        display: none;
+    } */
+</style>
+
+<body>
+    <div class="btntoggle">
+        btn
+    </div>
+    <div class="btntoggle">
+        btn
+    </div>
+    <div class="btntoggle">
+        btn
+    </div>
+    <br/>
+
+
+    <div class="toggle">
+        toggle1
+    </div>
+    <div class="toggle">
+        toggle2
+    </div>
+    <div class="toggle">
+        toggle3
+    </div>
+    <script>
+        $(".toggle").on('toggled', function (event, tab) {
+            console.log($(tab).html())
+        });
+        $(".btntoggle").click(function (params) {
+            var index = $(this).index();
+            $(".toggle").eq(index).show().siblings('.toggle').hide();
+        });
+
+        //--------------------------------------------------------------------
+        var Event = {
+            on: function (eventName, callback) {
+                console.log("eventName:"+eventName)
+                if (!this.handles) {
+                    Object.defineProperty(this, "handles", {
+                        value: {},
+                        enumerable: false//不可枚举
+                    })
+                    //this.handles = {};//可以枚举
+                }
+                if (!this.handles[eventName]) {
+                    this.handles[eventName] = [];
+                }
+                this.handles[eventName].push(callback);
+            },
+            emit: function () {
+                var hlist = this.handles[arguments[0]] || [];
+                for (var i = 0; i < hlist.length; i++) {
+                    this.handles[arguments[0]][i](arguments[1]);
+                }
+            }
+        }
+        Event.on("dome", function (params) {
+            console.log(params);
+        });
+        Event.on("dome", function (params) {
+            console.log("dome log");
+        });
+        Event.emit("dome", "holle world");
+
+        var person1 = {};
+        var person2 = {};
+        //Object.assign是浅复制，会导致person1，person2共用同一个handles
+        Object.assign(person1, Event);
+        Object.assign(person2, Event);
+        person1.on('call1', function () {
+            console.log('person1');
+        });
+        person2.on('call2', function () {
+            console.log('person2');
+        });
+        person1.emit('call1'); // 输出 'person1'
+        person1.emit('call2'); // 没有输出
+        person2.emit('call1'); // 没有输出
+        person2.emit('call2'); // 输出 'person2'
+    </script>
+
+</body>
+
+</html>
