@@ -10,7 +10,7 @@ export default{
         return new Promise(function (resolve, reject) {
             console.log('server log enter FETCH_LIST_DATA  Promise >>>>>>>', type)
             
-            API.post("/getlist",{type:type})
+            API.post("/api/getlist",{type:type})
                 .then(
                     function (data) {
                         commit('SET_LIST', { type, data })

@@ -11,11 +11,34 @@ const lru = require('lru-cache')
 const proxy = require('http-proxy-middleware'); //引入代理中间件
 const vueRenderer = require('vue-server-renderer')
 const devServer = require('./build/dev-server')
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const FileStreamRotator = require('file-stream-rotator');
+const router_api = require('./node/router/index.js');
+
+const app = express();
+
+//>>>>>>>>>>>>>>>>>logger begin>>>>>>>>>>>>>>>>>
+//在终端打印日志
+app.use(logger('dev'));
+
+//设置日志文件目录,一天一个日志文件
+var logDirectory = __dirname + '/logs';
+//确保日志文件目录存在 没有则创建
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+
+//创建一个写路由
+var accessLogStream = FileStreamRotator.getStream({
+  filename: logDirectory + '/accss-%DATE%.log',
+  frequency: 'daily',
+  verbose: false
+})
+
+app.use(logger('combined', { stream: accessLogStream }));//写入日志文件
+//<<<<<<<<<<<<<<<<<<logger  end<<<<<<<<<<<<<<<<<<
+
 const resolve = file => path.resolve(__dirname, file)
 
-
-const app = express()
 
 const createRenderer = bundle => {
   // https://github.com/isaacs/node-lru-cache#options
@@ -103,6 +126,8 @@ app.use(favicon('./public/favicon.ico'))
 
 // app.use('/assets', serve('./src/assets'))
 
+//api 路由文件
+app.use('/api',router_api);
 
 const IMG = require('./node/img.js')
 app.get("/verificationcode", (req, res) => {
@@ -113,26 +138,7 @@ app.get("/verificationcode", (req, res) => {
   var vcode = new IMG.img();
   return res.end("data:image/Png;base64," + vcode.imgbase64)
 })
-// parses x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.post("/getlist", (req, res, next) => {
-  const obj = require("./node/getlist.js");
-  obj.getlist(req, res, next);
-  // return res.end(obj.getlist(req, res, next));
-  //next();
-  // return res.end("123")
-});
 
-const obj = require("./node/getlist.js");
-function doAsync(req, res, next) {
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      res.send('index');
-    }, 2000);
-  });
-}
-app.get("/test", doAsync);
 
 app.get('*', (req, res) => {
   if (!renderer) {
