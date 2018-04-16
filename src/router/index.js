@@ -6,6 +6,9 @@ import View1 from '../views/View1.vue'
 import View2 from '../views/View2.vue'
 import testview from '../views/testview.vue'
 import _CreateListView from '../views/CreateListView.js'
+import itemDetail from '../views/ItemDetail.vue'
+import login from '../views/login.vue'
+
 import zdemo from '../views/zdemo.vue'
 
 Vue.use(Router)
@@ -26,6 +29,12 @@ export default new Router({
     { path: '/ask/:page(\\d+)?', component: _CreateListView('ask') },
     { path: '/job/:page(\\d+)?', component: _CreateListView('job') },
     { path: '/', component: _CreateListView('top') },    
+    { path: '/login', component: login },    
+    { 
+      path: '/itemdetail/:id', 
+      component:itemDetail,
+      
+  },
   ]
 })
 

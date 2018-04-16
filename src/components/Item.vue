@@ -8,19 +8,21 @@
         <span class="host"> ({{ item.url | host }})</span>
       </template>
       <template v-else>
-        <router-link :to="'/item/' + item.id">{{ item.title }}</router-link>
+        <router-link :to="'/itemdetail/' + item.id">{{ item.title }}</router-link>
       </template>
     </span>
     <br>
     <span class="meta">
       <span v-if="item.type !== 'job'" class="by">
-        by <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
+        by
+        <router-link :to="'/user/' + item.by">{{ item.by }}</router-link>
       </span>
       <span class="time">
         {{ item.time | timeAgo}} ago
       </span>
       <span v-if="item.type !== 'job'" class="comments-link">
-        | <router-link :to="'/item/' + item.id">{{ item.descendants }} comments</router-link>
+        |
+        <router-link :to="'/itemdetail/' + item.id">{{ item.descendants }} comments</router-link>
       </span>
     </span>
     <span class="label" v-if="item.type !== 'story'">{{ item.type }}</span>
@@ -40,13 +42,12 @@ export default {
   //   serverCacheKey: ({ item: { id, __lastUpdated, time }}) => {
   //     return `${id}::${__lastUpdated}::${timeAgo(time)}`
   //   }
-  methods: {
-    
-  }
+  methods: {}
 };
 </script>
 
 <style lang="stylus">
+
 .news-item {
   background-color: #fff;
   padding: 20px 30px 20px 80px;
