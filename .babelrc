@@ -11,3 +11,12 @@
   ],
   "comments": false
 }
+//以下是官网配置，作用是按需加载element-ui
+//但是会和extract-text-webpack-plugin冲突，原因未知；
+// [
+//   "component",
+//   {
+//     "libraryName": "element-ui",
+//     "styleLibraryName": "theme-chalk"
+//   }
+// ]

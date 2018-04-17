@@ -16,7 +16,6 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-
   fallback: false,
   scrollBehavior: () => ({ y: 0 }),
   routes: [
@@ -28,13 +27,19 @@ export default new Router({
     { path: '/show/:page(\\d+)?', component: _CreateListView('show') },
     { path: '/ask/:page(\\d+)?', component: _CreateListView('ask') },
     { path: '/job/:page(\\d+)?', component: _CreateListView('job') },
-    { path: '/', component: _CreateListView('top') },    
-    { path: '/login', component: login },    
-    { 
-      path: '/itemdetail/:id', 
-      component:itemDetail,
-      
-  },
+    {
+      path: '/login',
+      component: login,
+      meta: {
+        title: 'vue login'
+      }
+    },
+    { path: '/', component: _CreateListView('top') },
+    {
+      path: '/itemdetail/:id',
+      component: itemDetail,
+
+    },
   ]
 })
 

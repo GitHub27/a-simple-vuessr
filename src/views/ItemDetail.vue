@@ -1,11 +1,11 @@
 <template>
-    <div class="page">
-        <p>{{id}}</p>
-    </div>
+  <div class="page">
+    <p>{{id}}</p>
+  </div>
 </template>
 
 <script>
-import auth from "../components/auth.js";
+import auth from "../util/auth.js";
 
 export default {
   data() {

@@ -7,9 +7,21 @@ import App from './App.vue'
 import router from './router/index'
 import * as filters from './util/filters'
 import titleMixin from './util/title'
+import { Button, Select, Input } from 'element-ui';
 
 
+Vue.use(Button);
+Vue.use(Select);
+Vue.use(Input);
 Vue.mixin(titleMixin);
+
+// router.beforeEach((to, from, next) => {
+//   /* 路由发生变化修改页面title */
+//   if (to.meta.title) {
+//     document.title = to.meta.title;
+//   }
+//   next();
+// })
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
